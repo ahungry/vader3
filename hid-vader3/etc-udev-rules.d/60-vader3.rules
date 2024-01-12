@@ -1,0 +1,5 @@
+# Rebind driver to vader3
+ACTION=="bind", SUBSYSTEM=="hid", DRIVER!="vader3", KERNEL=="0005:D7D7:*", KERNEL=="*:0041.*", ATTR{driver/unbind}="%k", ATTR{[drivers/hid:vader3]bind}="%k"
+
+# Tag vader3 devices for access in the user session
+ACTION=="add|change", DRIVERS=="vader3", SUBSYSTEM=="input", TAG+="uaccess"

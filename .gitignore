@@ -1,0 +1,6 @@
+*~
+hid-vader3/dkms.conf
+hid-vader3/src/*.ko*
+hid-vader3/**/*.mod*
+hid-vader3/**/*.o*
+hid-vader3/src/*.symvers*

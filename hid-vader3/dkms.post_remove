@@ -1,0 +1,16 @@
+#!/bin/sh
+
+#TODO Remove ERTM after kernel patch is deployed in the wild
+ERTM_OVERRIDE="/etc/modprobe.d/99-vader3-bluetooth.conf"
+
+[ -L "${ERTM_OVERRIDE}" ] || { echo "Uninstalling ERTM override..."; rm -f "${ERTM_OVERRIDE}"; }
+
+echo "Uninstalling modalias database..."
+rm -f /etc/modprobe.d/vader3.conf
+
+echo "Uninstalling udev rules..."
+rm -f /etc/udev/rules.d/60-vader3.rules
+rm -f /etc/udev/rules.d/50-vader3-fixup-steamlink.rules
+
+echo "Reloading udev..."
+udevadm control --reload
