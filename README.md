@@ -4,6 +4,24 @@ Adds support for the 4 back buttons/paddles, C/Z buttons, and
 circle/home buttons, while connected in D-Input mode under a
 Bluetooth connection.
 
+# Installation (you have to compile it)
+
+```
+make -C hid-vader3
+sudo ./uninstall.sh
+sudo ./install.sh
+sudo modprobe hid-vader3
+```
+
+You can confirm it loaded/bound to your controller by checking dmesg
+(you should see a similar output):
+
+```
+[45188.559255] loaded hid-vader3 0.0.1-1-g6c50ff3-dirty
+[45188.559400] input: Flydigi VADER3P as /devices/virtual/misc/uhid/0005:D7D7:0041.0023/input/input526
+[45188.559483] vader3 0005:D7D7:0041.0023: input,hidraw0: BLUETOOTH HID v1.01 Gamepad [Flydigi VADER3P] on 14:85:7f:e2:41:03
+```
+
 # Toggling Flydigi Vader 3 Input Modes
 
 Swap the slider on the back to the center position.
