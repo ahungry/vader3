@@ -13,7 +13,6 @@ __version() {
 		echo >&2 "ERROR: If you install from a git repository, you may need to run"
 		echo >&2 "ERROR: sudo git config --global --add safe.directory \$PWD"
 		echo >&2 "ERROR: to trust this git checkout for the root user."
-		echo >&2 "ERROR: See https://github.com/ahungry/vader3/issues/346"
 		exit 3
 	}
 }
