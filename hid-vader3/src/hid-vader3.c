@@ -55,7 +55,7 @@ static int vader3_input_configured(struct hid_device *dev,
     int max_btn = 16;
     int abs_min = -128;
     int abs_max = 127;
-    int deadzone = (int) ((abs_max - abs_min) * 0.1);
+    int deadzone = 25; // Just hardcode to the same approximated value
 
     hid_set_drvdata(dev, input_dev);
 
@@ -100,8 +100,7 @@ static int vader3_input_configured(struct hid_device *dev,
 static int vader3_raw_event(struct hid_device *dev,
                             struct hid_report *report, u8 *data, int len)
 {
-  // struct input_dev *input_dev = hid_get_drvdata(dev);
-
+  /* struct input_dev *input_dev = hid_get_drvdata(dev); */
   /* hid_info(input_dev, "raw_event data 0: %d\n", data[0]); */
   /* hid_info(input_dev, "raw_event data 1: %d\n", data[1]); */
   /* hid_info(input_dev, "raw_event data 2: %d\n", data[2]); */
@@ -119,13 +118,14 @@ static int vader3_raw_event(struct hid_device *dev,
   /* hid_info(input_dev, "raw_event data 14: %d\n", data[14]); */
   /* hid_info(input_dev, "raw_event data 15: %d\n", data[15]); */
   /* hid_info(input_dev, "raw_event data 16: %d\n", data[16]); */
-  /* hid_info(input_dev, "raw_event data 17: %d\n", data[17]); */
 
   // Fix the rightmost back button, the others are 8/16/32, and 64 makes it recognized
   // If we don't do this, it actually won't be detected by qjoypad
-  if (data[11] == 4)
+  // The C/Z are 1/2 - no idea why 4 is problematic
+  if (len > 11 && data[11] & 4)
     {
-      data[11] = 64;
+      data[11] |= 64;
+      data[11] &= ~4;
     }
 
   // C-button reports as BTN_0
