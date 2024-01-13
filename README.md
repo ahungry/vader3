@@ -50,6 +50,22 @@ correctly), but this means that you will miss out on the ability to
 map native button presses using Qjoypad or AntiMicroX (I enjoy having
 8 additional buttons myself).
 
+# Testing
+
+I've tested the following with good results:
+
+- Final Fantasy XIV (via Lutris/wine)
+- Diablo IV (via Lutris/wine)
+- qjoypad (re-mapping software)
+
+and the following with OK results:
+
+- Steam controller config (It shows the controller as if it was a
+  Playstation layout, not an Xbox one.  It will will allow you to
+  assign/remap the main face buttons to the special buttons, but the
+  special buttons do not show up as distinct input items - so you
+  could use qjoypad or antimicrox in tandem with Steam there perhaps)
+
 # Copyright
 
 Matthew Carter <m@ahungry.com>
