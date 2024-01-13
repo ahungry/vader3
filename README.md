@@ -54,6 +54,24 @@ map native button presses using Qjoypad or AntiMicroX (I enjoy having
 
 Matthew Carter <m@ahungry.com>
 
+Some of the supplemental files (the build scripts (.sh files) and Makefiles, which lack
+copyright headers in the source repo (xpadneo - no association to this
+project)) are copyright their original authors.
+
+That project's copyright header/information is as follows:
+```
+/*
+ * Force feedback support for XBOX ONE S and X gamepads via Bluetooth
+ *
+ * This driver was developed for a student project at fortiss GmbH in Munich.
+ * Copyright (c) 2017 Florian Dollinger <dollinger.florian@gmx.de>
+ *
+ * Additional features and code redesign
+ * Copyright (c) 2020 Kai Krakow <kai@kaishome.de>
+ */
+```
+Please do NOT contact them for support for this project.
+
 # License
 
 GPLv3 or later (see: LICENSE)
