@@ -50,6 +50,14 @@ correctly), but this means that you will miss out on the ability to
 map native button presses using Qjoypad or AntiMicroX (I enjoy having
 8 additional buttons myself).
 
+Update:  I added support for the 8 extra buttons to "xpad" official
+driver via a PR here:
+
+https://github.com/paroj/xpad/pull/268
+
+This is very featureful - all extra buttons + rumble (x-input), but
+requires the dongle, so is slightly less convenient than bluetooth.
+
 # Testing
 
 I've tested the following with good results:
