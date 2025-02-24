@@ -5,3 +5,5 @@ hid-vader3/**/*.mod*
 hid-vader3/**/*.o*
 hid-vader3/src/*.symvers*
 hid-vader3/src/vader3.c
+*.mod.cmd
+*.mod

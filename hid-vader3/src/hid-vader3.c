@@ -53,8 +53,12 @@ static int vader3_input_configured(struct hid_device *dev,
     struct input_dev * input_dev = input->input;
     int i;
     int max_btn = 16;
-    int abs_min = -128;
-    int abs_max = 127;
+    // Originally had at -128 and 127, maybe stick sensitivity is lower over time
+    // evtest /dev/input/event15
+    // indicates that the range is only 115'ish, having it too high will make games
+    // think you're only at the 90% to max vs full max.
+    int abs_min = -115;
+    int abs_max = 115;
     int deadzone = 25; // Just hardcode to the same approximated value
 
     hid_set_drvdata(dev, input_dev);
@@ -313,8 +317,8 @@ static struct hid_driver vader3_driver = {
 // module_hid_driver(vader3_driver);
 static int __init vader3_init(void)
 {
- 	pr_info("loaded hid-vader3 %s\n", VADER3_VERSION);
-	dbg_hid("vader3:%s\n", __func__);
+ 	pr_info("loaded hid-vader4y %s\n", VADER3_VERSION);
+	dbg_hid("vader4x:%s\n", __func__);
 
   int ret = hid_register_driver(&vader3_driver);
 
