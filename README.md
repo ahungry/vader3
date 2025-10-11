@@ -1,10 +1,20 @@
 # Flydigi Vader 3 Bluetooth driver for GNU/Linux
 
 Adds support for the 4 back buttons/paddles, C/Z buttons, and
-circle/home buttons, while connected in D-Input mode (hold the
-circle/power button with the A button for a few seconds to fix -
-device starts in X-input mode) under a
-Bluetooth connection.
+circle/home buttons, while connected in D-Input mode (see: Toggling
+section) under a Bluetooth connection.
+
+# NEW: Custom feature(s):
+
+As of <2025-10-11 Sat>, you can now press the circle button (the same
+one used to toggle d-input/x-input modes) one time to toggle "sticky
+r1", which is very useful for Final Fantasy Tactics: Ivalice
+Chronicles on steam - after turning on sticky mode, you can tap r1 to
+have it be treated as a "hold", then turn it off by pressing again, or
+pressing the circle once again.
+
+If there is interest, I may make this more customizable/add additional
+sticky keys (configurable in some way, or pressing key combos maybe).
 
 # Installation (you have to compile it)
 

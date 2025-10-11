@@ -25,6 +25,13 @@ MODULE_VERSION(VADER3_VERSION);
 #define VENDOR_FLYDIGI 0xD7D7
 #define DEV_VADER3 0x0041
 
+struct vader3_data
+{
+  struct input_dev *input_dev;
+  int rtrigger_state;
+  bool sticky_mode;
+};
+
 static int vader3_input_mapping(struct hid_device *dev,
                                 struct hid_input *input,
                                 struct hid_field *field,
@@ -50,7 +57,22 @@ static int vader3_input_mapping(struct hid_device *dev,
 static int vader3_input_configured(struct hid_device *dev,
                                    struct hid_input *input)
 {
-    struct input_dev * input_dev = input->input;
+    struct input_dev *input_dev = input->input;
+    struct vader3_data *drv_data;
+
+    drv_data = devm_kzalloc(&dev->dev, sizeof(*drv_data), GFP_KERNEL);
+    if (!drv_data)
+      return -ENOMEM;
+
+    // Initialize state
+    drv_data->input_dev = input_dev;
+    drv_data->rtrigger_state = 0;
+    drv_data->sticky_mode = false; // Initial state: OFF
+
+    // Attach the data to the HID device structure
+    hid_set_drvdata(dev, drv_data);
+    // input_set_drvdata(input_dev, drv_data);
+
     int i;
     int max_btn = 16;
     // Originally had at -128 and 127, maybe stick sensitivity is lower over time
@@ -61,7 +83,7 @@ static int vader3_input_configured(struct hid_device *dev,
     int abs_max = 115;
     int deadzone = 25; // Just hardcode to the same approximated value
 
-    hid_set_drvdata(dev, input_dev);
+    // hid_set_drvdata(dev, input_dev);
 
     // Define features
     set_bit(EV_KEY, input_dev->evbit);
@@ -178,7 +200,11 @@ static int vader3_raw_event(struct hid_device *dev,
 static int vader3_event(struct hid_device *dev, struct hid_field *field,
 			 struct hid_usage *usage, __s32 value)
 {
-  struct input_dev *input_dev = hid_get_drvdata(dev);
+  struct vader3_data *drv_data = hid_get_drvdata(dev);
+  if (!drv_data)
+    return 0;
+
+  struct input_dev *input_dev = drv_data->input_dev;
 
   // hid_info(input_dev, "type: %d\n", usage->type);
 
@@ -240,7 +266,7 @@ static int vader3_event(struct hid_device *dev, struct hid_field *field,
               break;
 
             default:
-              hid_info(input_dev, "Unknown d-pad direction: %d\n", value);
+              // hid_info(input_dev, "Unknown d-pad direction: %d\n", value);
               // input_report_abs(input_dev, usage->code, value);
               break;
 
@@ -265,6 +291,22 @@ static int vader3_event(struct hid_device *dev, struct hid_field *field,
           input_report_key(input_dev, BTN_TRIGGER_HAPPY1, value);
           // input_report_key(input_dev, BTN_C, value);
           break;
+
+        case BTN_TR: // r1 bumper
+          if (drv_data->sticky_mode)
+            {
+              if (value)
+                {
+                  drv_data->rtrigger_state = !drv_data->rtrigger_state;
+                  input_report_key(input_dev, BTN_TR, drv_data->rtrigger_state);
+                  input_sync(input_dev);
+                }
+            }
+          else
+            {
+              input_report_key(input_dev, BTN_TR, value);
+            }
+          break;
         case KEY_ENTER: // Z-Button
           input_report_key(input_dev, BTN_TRIGGER_HAPPY2, value);
           break;
@@ -282,6 +324,11 @@ static int vader3_event(struct hid_device *dev, struct hid_field *field,
           input_report_key(input_dev, BTN_TRIGGER_HAPPY6, value);
           break;
         case KEY_CAMERA: // Circle button under joysticks
+          if (value)
+            {
+              drv_data->sticky_mode = !drv_data->sticky_mode;
+              drv_data->rtrigger_state = 0;
+            }
           input_report_key(input_dev, BTN_TRIGGER_HAPPY7, value);
           break;
         case KEY_RED: // Home button under joysticks
@@ -317,8 +364,8 @@ static struct hid_driver vader3_driver = {
 // module_hid_driver(vader3_driver);
 static int __init vader3_init(void)
 {
- 	pr_info("loaded hid-vader4y %s\n", VADER3_VERSION);
-	dbg_hid("vader4x:%s\n", __func__);
+ 	pr_info("loaded hid-vader3 %s - a\n", VADER3_VERSION);
+	dbg_hid("vader3x:%s\n", __func__);
 
   int ret = hid_register_driver(&vader3_driver);
 
