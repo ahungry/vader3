@@ -1,7 +1,9 @@
 # Flydigi Vader 3 Bluetooth driver for GNU/Linux
 
 Adds support for the 4 back buttons/paddles, C/Z buttons, and
-circle/home buttons, while connected in D-Input mode under a
+circle/home buttons, while connected in D-Input mode (hold the
+circle/power button with the A button for a few seconds to fix -
+device starts in X-input mode) under a
 Bluetooth connection.
 
 # Installation (you have to compile it)
@@ -73,6 +75,12 @@ and the following with OK results:
   assign/remap the main face buttons to the special buttons, but the
   special buttons do not show up as distinct input items - so you
   could use qjoypad or antimicrox in tandem with Steam there perhaps)
+
+# Debug
+
+```
+sudo cat /dev/hidraw0 | xxd # make sure to match what dmesg shows the hid as
+```
 
 # Copyright
 
