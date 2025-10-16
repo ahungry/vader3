@@ -5,7 +5,7 @@
  * https://www.nirenjan.com/2020/linux-hid-driver/
  *
  * Project References:
- * https://github.com/atar-axis/vader3
+ * https://github.com/atar-axis/xpadneo
  */
 
 #ifndef VADER3_H_FILE
