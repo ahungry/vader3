@@ -89,6 +89,10 @@ static int vader3_input_configured(struct hid_device *dev,
     set_bit(EV_KEY, input_dev->evbit);
     set_bit(EV_ABS, input_dev->evbit);
 
+    // Silence error about:
+    // (EE) libinput bug: Event for missing capability CAP_POINTER on device "Flydigi VADER4P"
+    set_bit(EV_REL, input_dev->evbit);
+
     // If we want to initialize buttons under the first 16, we can, but it
     // would violate the Xbox spec, and xpadneo devs recommend we stick to trigger happy range.
     // set_bit(BTN_C, input_dev->keybit);
@@ -97,6 +101,10 @@ static int vader3_input_configured(struct hid_device *dev,
     for (i = 0; i < max_btn; i++) {
         set_bit(BTN_TRIGGER_HAPPY1 + i, input_dev->keybit);
     }
+
+    // Silence error about:
+    // (EE) libinput bug: Event for missing capability CAP_POINTER on device "Flydigi VADER4P"
+    set_bit(BTN_MOUSE, input_dev->keybit);
 
     // Define stick capabilities
     set_bit(ABS_X, input_dev->absbit);
@@ -328,6 +336,7 @@ static int vader3_event(struct hid_device *dev, struct hid_field *field,
             {
               drv_data->sticky_mode = !drv_data->sticky_mode;
               drv_data->rtrigger_state = 0;
+              pr_info("vader3: Sticky mode: %d\n", drv_data->sticky_mode);
             }
           input_report_key(input_dev, BTN_TRIGGER_HAPPY7, value);
           break;
