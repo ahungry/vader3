@@ -89,10 +89,6 @@ static int vader3_input_configured(struct hid_device *dev,
     set_bit(EV_KEY, input_dev->evbit);
     set_bit(EV_ABS, input_dev->evbit);
 
-    // Silence error about:
-    // (EE) libinput bug: Event for missing capability CAP_POINTER on device "Flydigi VADER4P"
-    set_bit(EV_REL, input_dev->evbit);
-
     // If we want to initialize buttons under the first 16, we can, but it
     // would violate the Xbox spec, and xpadneo devs recommend we stick to trigger happy range.
     // set_bit(BTN_C, input_dev->keybit);
@@ -102,9 +98,14 @@ static int vader3_input_configured(struct hid_device *dev,
         set_bit(BTN_TRIGGER_HAPPY1 + i, input_dev->keybit);
     }
 
+    // This stuff will force it to be a mouse, not actually what we want...
     // Silence error about:
     // (EE) libinput bug: Event for missing capability CAP_POINTER on device "Flydigi VADER4P"
-    set_bit(BTN_MOUSE, input_dev->keybit);
+    // set_bit(EV_REL, input_dev->evbit);
+
+    // Silence error about:
+    // (EE) libinput bug: Event for missing capability CAP_POINTER on device "Flydigi VADER4P"
+    // set_bit(BTN_MOUSE, input_dev->keybit);
 
     // Define stick capabilities
     set_bit(ABS_X, input_dev->absbit);
