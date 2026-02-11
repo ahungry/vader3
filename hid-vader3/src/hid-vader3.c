@@ -235,18 +235,22 @@ static int vader3_event(struct hid_device *dev, struct hid_field *field,
             {
             case 1: // up
               input_report_abs(input_dev, ABS_HAT0Y, -1);
+              input_report_abs(input_dev, ABS_HAT0X, 0);
               break;
 
             case 5: // down
               input_report_abs(input_dev, ABS_HAT0Y, 1);
+              input_report_abs(input_dev, ABS_HAT0X, 0);
               break;
 
             case 7: // left
               input_report_abs(input_dev, ABS_HAT0X, -1);
+              input_report_abs(input_dev, ABS_HAT0Y, 0);
               break;
 
             case 3: // right
               input_report_abs(input_dev, ABS_HAT0X, 1);
+              input_report_abs(input_dev, ABS_HAT0Y, 0);
               break;
 
             case 2: // up-right
